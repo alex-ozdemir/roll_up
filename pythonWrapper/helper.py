@@ -23,6 +23,7 @@ import json
 from solc import compile_source, compile_files, link_code
 from bitstring import BitArray
 import random 
+import time
 
 from ctypes import cdll
 import ctypes as c
@@ -63,6 +64,7 @@ def hexToBinary(hexString):
     return(out)
   
 def genWitness(leaves, public_key_x, public_key_y, address, tree_depth, _rhs_leaf, _new_leaf,r_x, r_y, s):
+    start = time.time()
 
     path = []
     fee = 0 
@@ -123,6 +125,8 @@ def genWitness(leaves, public_key_x, public_key_y, address, tree_depth, _rhs_lea
 
     proof = json.loads(proof.decode("utf-8"))
     root , merkle_tree = utils.genMerkelTree(tree_depth, leaves[0])
+
+    print('Seconds in genWitness = ', time.time() - start)
 
     return(proof, root)
 

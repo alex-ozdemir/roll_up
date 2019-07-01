@@ -24,6 +24,7 @@ sys.path.insert(0, "../depends/baby_jubjub_ecc/tests")
 
 sys.path.insert(0, '../contracts')
 from contract_deploy import contract_deploy, verify
+import time
 
 from helper import *
 from utils import getSignature, createLeaf, hashPadded, libsnark2python, normalize_proof, hex2int
@@ -125,8 +126,10 @@ if __name__ == "__main__":
         address.append(0)
 
     # Get zk proof and merkle root
+    print('Generating Witness...')
     proof, root = genWitness(leaves, pub_x, pub_y, address, tree_depth, 
                                 rhs_leaf, new_leaf , R_x, R_y, S)              
+    print('...Witness Generated')
 
 
 
