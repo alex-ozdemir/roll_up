@@ -112,22 +112,32 @@ namespace libsnark {
 
     template<typename FieldT, typename HashT>
     void tx<FieldT, HashT>::generate_r1cs_constraints() { 
-        jubjub_eddsa->generate_r1cs_constraints();
-       
-        public_key_hash->generate_r1cs_constraints(true);
-        leaf_hash->generate_r1cs_constraints(true);
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "jubjub") {
+            jubjub_eddsa->generate_r1cs_constraints();
+        }
 
-        message_hash->generate_r1cs_constraints(true);
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "hashes") {
+            public_key_hash->generate_r1cs_constraints(true);
+            leaf_hash->generate_r1cs_constraints(true);
 
-        unpacker_pub_key_x->generate_r1cs_constraints(true);
-        unpacker_pub_key_y->generate_r1cs_constraints(true);
+            message_hash->generate_r1cs_constraints(true);
+        }
 
-        path_var_old->generate_r1cs_constraints();
-        path_var_new->generate_r1cs_constraints();
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "key unpackers") {
+            unpacker_pub_key_x->generate_r1cs_constraints(true);
+            unpacker_pub_key_y->generate_r1cs_constraints(true);
+        }
 
-        root_digest_old->generate_r1cs_constraints();
-        root_digest_new->generate_r1cs_constraints();
-        ml->generate_r1cs_constraints();   
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "path vars") {
+            path_var_old->generate_r1cs_constraints();
+            path_var_new->generate_r1cs_constraints();
+        }
+
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "merkle updates") {
+            root_digest_old->generate_r1cs_constraints();
+            root_digest_new->generate_r1cs_constraints();
+            ml->generate_r1cs_constraints();
+        }
 
         //make sure the traget root matched the calculated root
         //for(int i = 0 ; i < 255; i++) {

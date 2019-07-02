@@ -255,10 +255,13 @@ char* prove(bool _path[][tree_depth][256], bool _pub_key_x[][256], bool _pub_key
                                               address_bits_va, root_digest_old, root_digest_new, 
                                               path, path, rhs_leaf, S, new_leaf, r_x_bin, r_y_bin, old_root, new_root, leaves_data_availability, leaves_addresses_data_availability , noTx ,"Confirm tx"));
 
+
+    size_t cs = pb.num_constraints();
     transactions->generate_r1cs_constraints();         
+    std::cout << "TX Constraints: " << pb.num_constraints() - cs << std::endl;
+    std::exit(1);
 
     transactions->generate_r1cs_witness();
-
 
     std::cout << "is satisfied: " << pb.is_satisfied() << std::endl;
  

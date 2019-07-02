@@ -101,14 +101,27 @@ namespace libsnark {
 
     template<typename FieldT>
     void roll_up<FieldT>::generate_r1cs_constraints() { 
-        for (int i =0; i<noTx; i++) {
-            transactions[i]->generate_r1cs_constraints();
+        PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "roll_up") {
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "transactions") {
+                for (int i =0; i<noTx; i++) {
+                    transactions[i]->generate_r1cs_constraints();
+                }
             }
-        unpacker_old_root->generate_r1cs_constraints(true);
-        unpacker_new_root->generate_r1cs_constraints(true);
-        unpacker_leaf_addresses->generate_r1cs_constraints(true);
-        unpacker_leaf_hashes->generate_r1cs_constraints(true);
-    } 
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "unpacker_old_root") {
+                unpacker_old_root->generate_r1cs_constraints(true);
+            }
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "unpacker_new_root") {
+                unpacker_new_root->generate_r1cs_constraints(true);
+            }
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "unpacker_leaf_addr") {
+                unpacker_leaf_addresses->generate_r1cs_constraints(true);
+            }
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "unpacker_leaf_hash") {
+                unpacker_leaf_hashes->generate_r1cs_constraints(true);
+            }
+        }
+        PRINT_CONSTRAINT_PROFILING();
+    }
 
 
     template<typename FieldT>

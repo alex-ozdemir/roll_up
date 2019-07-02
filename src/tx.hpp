@@ -22,6 +22,7 @@
 #include <memory>
 
 #include <libsnark/gadgetlib1/gadget.hpp>
+#include <libsnark/gadgetlib1/constraint_profiling.hpp>
 #include "baby_jubjub_ecc/main.cpp"
 
 

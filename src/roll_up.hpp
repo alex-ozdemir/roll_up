@@ -22,6 +22,7 @@
 #include <memory>
 
 #include <libsnark/gadgetlib1/gadget.hpp>
+#include <libsnark/gadgetlib1/constraint_profiling.hpp>
 #include <tx.hpp>
 
 
@@ -46,7 +47,6 @@ public:
 
     pb_variable<FieldT> a;
     pb_variable<FieldT> d;
-
 
     pb_variable_array<FieldT> unpacked_addresses;
     pb_variable_array<FieldT> unpacked_leaves;

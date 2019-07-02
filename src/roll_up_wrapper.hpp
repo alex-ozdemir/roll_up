@@ -23,6 +23,7 @@ extern "C" {
 
 #include <stdbool.h>
 #include <stdint.h>
+//#include <libsnark/gadgetlib1/constraint_profiling.hpp>
 const int tree_depth = 2;
 char* _sha256Constraints();
 char* _sha256Witness();
