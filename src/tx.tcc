@@ -117,10 +117,16 @@ namespace libsnark {
         }
 
         PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "hashes") {
-            public_key_hash->generate_r1cs_constraints(true);
-            leaf_hash->generate_r1cs_constraints(true);
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "pk") {
+                public_key_hash->generate_r1cs_constraints(true);
+            }
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "leaf") {
+                leaf_hash->generate_r1cs_constraints(true);
+            }
 
-            message_hash->generate_r1cs_constraints(true);
+            PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "msg") {
+                message_hash->generate_r1cs_constraints(true);
+            }
         }
 
         PROFILE_CONSTRAINTS(gadget<FieldT>::pb, "key unpackers") {
